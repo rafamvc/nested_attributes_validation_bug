@@ -1,8 +1,8 @@
+When using the update_attributes for nested attributes, the inner model gets out of sync. The bug was identifed on Rails 3.1.1.
 
-- rails new nested_attributes_validation_bug
-- rails generate model employee name:string
-- rails generate model address street:string city:string employee:references
-
+Console code: 
+======
+```ruby
 e = Employee.create(name: 'rafael', active: false)
 b = Badge.create(number: 1, employee: e)
 a = Address.create(street: "123 Market St", city: "San Diego", employee: e)
@@ -16,13 +16,14 @@ e.active = true
 e.is_active?
 e.badge.employee.is_active?
 e.addresses.first.employee.is_active?
-
-
-"schedules_attributes"=>{"0"=>{"monday"=>"0", "tuesday"=>"0", "wednesday"=>"0", "thursday"=>"1", "friday"=>"1", "saturday"=>"1", "sunday"=>"0", "daily_schedule"=>"All Day", "start_time(1i)"=>"2000", "start_time(2i)"=>"1", "start_time(3i)"=>"1", "start_time(4i)"=>"00", "start_time(5i)"=>"01", "end_time(1i)"=>"2000", "end_time(2i)"=>"1", "end_time(3i)"=>"1", "end_time(4i)"=>"23", "end_time(5i)"=>"59", "id"=>"2"}}, "demographic_attributes"=>{"age_18_24"=>"1", "age_35_44"=>"0", "age_55_64"=>"0", "age_25_34"=>"0", "age_45_54"=>"0", "age_65_more"=>"0", "male"=>"0", "female"=>"0", "income_30k"=>"1", "income_30_50k"=>"1", "income_50_80k"=>"1", "income_80_100k"=>"1", "income_100k_more"=>"1", "id"=>"2"}, "event_triggers_attributes"=>{"0"=>{"kind"=>"near", "location_kind"=>"their home", "radius"=>"200", "id"=>"2"}}, "creative_attributes"=>{"id"=>"2", "title"=>"test123", "description"=>"test123a", "ar_target_cache"=>"", "ar_type"=>"3d_model", "ar_model_cache"=>"", "ar_texture_cache"=>"", "ar_overlay_cache"=>"", "ad_display_type"=>"ad_instruction", "ar_instructions"=>"test", "ad_image_cache"=>"", "link"=>""}}
+```
 
 
 
 
+Console output:
+==============
+```ruby
 ruby-1.9.2-p290 :001 > e = Employee.create(name: 'rafael', active: false)
 ruby-1.9.2-p290 :002 > b = Badge.create(number: 1, employee: e)
 ruby-1.9.2-p290 :003 > a = Address.create(street: "123 Market St", city: "San Diego", employee: e)
@@ -42,3 +43,4 @@ ruby-1.9.2-p290 :010 > e.badge.employee.is_active?
 ruby-1.9.2-p290 :011 > e.addresses.first.employee.is_active?
  => false 
 ruby-1.9.2-p290 :012 >
+```
