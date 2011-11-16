@@ -12,35 +12,9 @@ e.is_active?
 e.badge.employee.is_active?
 e.addresses.first.employee.is_active?
 e.active = true
-# e.update_attributes({name: 'Rafael', active: true, :badge_attributes=>{id: 1, number: 1}, :addresses_attributes => {"0" => {id: 1, street: "321 First St", city: "Santa Monica"}}})
+e.update_attributes({name: 'Rafael', active: true, :badge_attributes=>{id: 1, number: 1}, :addresses_attributes => {"0" => {id: 1, street: "321 First St", city: "Santa Monica"}}})
 e.is_active?
 e.badge.employee.is_active?
 e.addresses.first.employee.is_active?
 ```
 
-
-
-
-Console output:
-==============
-```ruby
-ruby-1.9.2-p290 :001 > e = Employee.create(name: 'rafael', active: false)
-ruby-1.9.2-p290 :002 > b = Badge.create(number: 1, employee: e)
-ruby-1.9.2-p290 :003 > a = Address.create(street: "123 Market St", city: "San Diego", employee: e)
-ruby-1.9.2-p290 :004 > e = Employee.first
-ruby-1.9.2-p290 :005 > e.is_active?
- => false 
-ruby-1.9.2-p290 :006 > e.badge.employee.is_active?
- => false 
-ruby-1.9.2-p290 :007 > e.addresses.first.employee.is_active?
- => false 
-ruby-1.9.2-p290 :008 > e.active = true
- => true 
-ruby-1.9.2-p290 :009 > e.is_active?
- => true 
-ruby-1.9.2-p290 :010 > e.badge.employee.is_active?
- => true 
-ruby-1.9.2-p290 :011 > e.addresses.first.employee.is_active?
- => false 
-ruby-1.9.2-p290 :012 >
-```
